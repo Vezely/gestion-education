@@ -1,0 +1,141 @@
+.nav {
+	margin-top: 3.09rem;
+	display: flex;
+	justify-content: flex-end;
+	color: var(--CouleurNB);
+	/* width: 100%; */
+	background-color: var(--CouleurFondNav);
+}
+
+.nav svg {
+	fill: var(--CouleurIcon);
+	width: 30px;
+}
+.nav ul {
+	margin: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-right: 1px solid var(--CouleurBordure);
+	width: 12rem;
+	transition: all 0.8s;
+	/* height: 100vh; */
+	/* transition: all 0.5s; */
+
+	padding: 0;
+}
+.nav ul li {
+	width: 90%;
+	margin: 5px 0;
+	border-radius: 8px;
+	transition: all 0.8s;
+}
+.nav ul li span {
+	margin-top: 5px;
+}
+.li.active {
+	background-color: var(--CouleurSurvol);
+	transition: all 0.5s;
+	border-radius: 10px;
+}
+.li.active a span {
+	color: #fff;
+}
+.li.active a svg {
+	fill: #fff;
+}
+.nav ul li:hover a {
+	color: #fff;
+}
+.nav ul li:hover,
+.Logo:hover {
+	background-color: var(--CouleurSurvol);
+	color: #fff;
+	transition: all 0.5s;
+	border-radius: 10px;
+}
+.nav ul li a:hover svg {
+	fill: #fff;
+}
+/* .fond.desactiver {
+	display: none;
+} */
+.nav ul li a {
+	display: flex;
+	padding: 0 10px;
+	border-radius: 8px;
+	align-items: center;
+	gap: 5px;
+	color: var(--CouleurTexteLien);
+	text-decoration: none;
+	height: 4rem;
+	font-size: 0.9em;
+}
+.menuToggle,
+.navToggle {
+	width: 3.5rem;
+	transition: all 0.8s;
+}
+.menuToggle .li {
+	height: 45px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: all 0.8s;
+}
+.menuToggle svg {
+	margin-left: 5px;
+}
+
+.texteSpan {
+	display: none;
+}
+.focus2 {
+	position: absolute;
+	background-color: var(--CouleurSurvol);
+	/* top: 3.59rem; */
+	/* right: 27%; */
+	left: 3.8rem;
+	color: #fff;
+	font-size: 0.9em;
+	font-weight: 250;
+	text-align: center;
+	z-index: 2;
+	border-radius: 5px;
+	padding: 5px 10px;
+	background-color: var(--CouleurSurvol);
+	display: none;
+}
+.focus2 span {
+	width: 15px;
+	height: 15px;
+	background-color: var(--CouleurSurvol);
+	z-index: -1;
+	position: absolute;
+	top: 1px;
+	left: -5px;
+	/* transform: translate(-50%, 50%); */
+	transform: rotate(45deg);
+}
+.ul li:hover .focus2 {
+	display: block;
+}
+@media (max-width: 665px) {
+	.nav ul {
+		width: 3.5rem;
+		transition: all 0.5s;
+	}
+	/* .nav ul svg {
+		margin-left: 5px;
+	} */
+	.nav ul .li {
+		height: 45px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.nav ul span {
+		display: none;
+	}
+}

@@ -1,0 +1,116 @@
+.container {
+	background-color: var(--CouleurFond);
+	position: relative;
+	width: 100%;
+	grid-column: 2/15;
+	overflow-x: hidden;
+}
+.contenu {
+	/* width: 100%; */
+	/* position: absolute;
+	top: 48px;
+	right: 14rem;
+	left: 12rem; */
+	margin-top: 3.09rem;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 5px;
+	background-color: var(--CouleurFond);
+	transition: all 0.5s;
+}
+.contenu .infos {
+	display: flex;
+	flex-direction: column;
+	color: var(--CouleurTexteLien);
+	width: 100%;
+	margin-bottom: 15px;
+	padding: 15px;
+	border: 1px solid var(--CouleurTexteLien);
+}
+.contenu .infos > div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.contenu .infos > div .adresse {
+	font-size: 0.7rem;
+}
+/* .contenu .infos > div .nb_eleve {
+	font-size: 1.5rem;
+	font-weight: bold;
+} */
+.contenu h1 {
+	color: var(--CouleurTexteLienSurvol);
+	margin: 10px 0;
+	display: flex;
+	align-items: baseline;
+	font-size: 1.5em;
+}
+.box_container {
+	display: flex;
+	flex-direction: column;
+	color: var(--CouleurTexteLien);
+	width: 100%;
+}
+.box_container .box_eleve {
+	color: var(--CouleurTexteLien);
+	font-size: 0.8em;
+}
+.classe {
+	border: 1px solid var(--CouleurTexteLien);
+	/* margin: 5px; */
+	padding: 15px;
+}
+.classe .nom_classe {
+	margin-bottom: 10px;
+}
+.classe .nom_classe select {
+	width: 100%;
+	background-color: var(--CouleurFond);
+	color: var(--CouleurTexteLien);
+	color: white;
+	padding: 5px;
+	outline: none;
+	border: 1px solid var(--CouleurTexteLien);
+	background-color: var(--CouleurSurvol);
+}
+
+.classe .nom_classe h2 {
+	font-size: 1.2em;
+}
+.box_eleve .table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.box_eleve .table th,
+.table td {
+	border: 1px solid var(--CouleurTexteLien);
+	padding: 8px;
+	text-align: center;
+}
+.table tr:nth-child(1) {
+	color: var(--CouleurTexteLienSurvol);
+}
+.table tr:nth-child(n + 2):hover {
+	background-color: var(--CouleurSurvol);
+	color: white;
+	cursor: pointer;
+}
+@media (max-width: 665px) {
+	.contenu {
+		left: 3.5rem;
+		transition: all 0.5s;
+	}
+}
+@media (max-width: 772px) {
+	.contenu {
+		right: 0;
+	}
+	.card {
+		width: 100%;
+		max-width: none;
+	}
+}

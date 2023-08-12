@@ -1,0 +1,118 @@
+.formulaire {
+	border: 1px solid var(--CouleurBordure);
+	padding: 10px;
+	width: 100%;
+	/* background-color: rgba(25, 39, 52, 1); */
+}
+.formulaire h2 {
+	text-transform: uppercase;
+}
+.form {
+	display: flex;
+	flex-direction: column;
+	transition: all 0.3s;
+	gap: 10px;
+}
+.section {
+	display: flex;
+
+	gap: 10px;
+	width: 100%;
+}
+.section input::placeholder,
+.section label textarea::placeholder {
+	font-size: 0.8em;
+}
+.section input,
+.section label select,
+.section label textarea {
+	outline: none;
+	background: none;
+	color: var(--CouleurTexte);
+	padding: 5px 10px;
+	width: 100%;
+	border: 1px solid var(--CouleurBordure);
+}
+.section input:focus,
+.section label select:focus {
+	border: 1px solid var(--CouleurSurvol);
+}
+.section label {
+	width: 100%;
+}
+.section label .obligatoire::before {
+	content: '* ';
+	/* color: red; */
+}
+.button {
+	border: 1px solid var(--CouleurBordure);
+	background: none;
+	padding: 5px 10px;
+	transition: all 0.3s;
+	color: var(--CouleurTexte);
+	cursor: pointer;
+}
+.button:hover {
+	background-color: var(--CouleurSurvol);
+	transition: all 0.3s;
+}
+.cyberpunk_button {
+	background-color: var(--CouleurBordure);
+	color: var(--CouleurTexte);
+	font-size: 18px;
+	border: none;
+	border-radius: 5px;
+	padding: 15px 25px;
+	cursor: pointer;
+	transition: all 0.3s ease-in-out;
+}
+
+.cyberpunk_checkbox {
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--CouleurBordure);
+	border-radius: 5px;
+	background-color: transparent;
+	display: inline-block;
+	position: relative;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.cyberpunk_checkbox:before {
+	content: '';
+	background-color: var(--CouleurSurvol);
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0);
+	width: 10px;
+	height: 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease-in-out;
+}
+
+.cyberpunk_checkbox:checked:before {
+	transform: translate(-50%, -50%) scale(1);
+}
+
+.cyberpunk_checkbox_label {
+	font-size: 18px;
+	color: var(--CouleurTexte);
+	cursor: pointer;
+	user-select: none;
+	display: flex;
+	align-items: center;
+}
+.erreur {
+	color: red;
+	margin: 0;
+	font-size: 0.8em;
+}
+@media (max-width: 662px) {
+	.section {
+		flex-wrap: wrap;
+	}
+}

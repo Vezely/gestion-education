@@ -1,0 +1,25 @@
+/* .container {
+	background-color: var(--CouleurFond);
+	position: relative;
+} */
+.fond {
+	margin-top: 3.09rem;
+	transition: all 0.5s;
+}
+.fond img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+@media (max-width: 665px) {
+	.fond {
+		left: 3.5rem;
+		right: 0;
+		transition: all 0.5s;
+	}
+}
+@media (max-width: 772px) {
+	.fond {
+		right: 0;
+	}
+}

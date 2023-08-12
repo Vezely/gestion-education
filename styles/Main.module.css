@@ -1,0 +1,19 @@
+/* .container {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	transition: all 0.4s;
+	background-color: var(--page-bg-color);
+	color: var();
+	margin-bottom: 400px;
+} */
+.main {
+	/* background-color: white; */
+	background-color: var(--coleur-main);
+	border-bottom-left-radius: 100px;
+	margin-bottom: 700px;
+	padding: 0 0 80px 0;
+}
+.container {
+	display: flex;
+}

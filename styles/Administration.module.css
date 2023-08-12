@@ -1,0 +1,58 @@
+.container {
+	background-color: var(--CouleurFond);
+	position: relative;
+	width: 100%;
+}
+.contenu {
+	margin-top: 3.09rem;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 5px;
+	background-color: var(--CouleurFond);
+	transition: all 0.5s;
+	color: var(--CouleurTexte);
+}
+.contenu > img {
+	width: 100%;
+	height: 100%;
+}
+.entete {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+.entete ul {
+	padding: 0;
+	width: 80%;
+	list-style-type: none;
+	display: flex;
+	justify-content: center;
+	background-color: var(--CouleurBordure);
+}
+.entete ul li {
+	padding: 8px;
+	cursor: pointer;
+	width: 100%;
+	text-align: center;
+}
+.entete ul li:hover {
+	background-color: var(--CouleurSurvol);
+}
+@media (max-width: 772px) {
+	.contenu {
+		right: 0;
+	}
+	/* .card {
+		width: 100%;
+		max-width: none;
+	} */
+}
+@media (max-width: 665px) {
+	.contenu {
+		left: 3.5rem;
+		transition: all 0.5s;
+	}
+}

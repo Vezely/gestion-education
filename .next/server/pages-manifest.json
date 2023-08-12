@@ -1,0 +1,9 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/commune/[commune]": "pages/commune/[commune].js",
+  "/api/commune": "pages/api/commune.js",
+  "/api/communes": "pages/api/communes.js",
+  "/api/etablissements": "pages/api/etablissements.js"
+}

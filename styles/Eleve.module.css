@@ -1,0 +1,111 @@
+.container {
+	background-color: var(--CouleurFond);
+	width: 100%;
+}
+.contenu {
+	margin-top: 3.09rem;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 5px;
+	background-color: var(--CouleurFond);
+	transition: all 0.5s;
+	color: aliceblue;
+}
+.contenu h1 {
+	color: var(--CouleurTexteLien2);
+	width: 100%;
+	text-align: start;
+}
+.infoEleve {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: var(--CouleurFondNav);
+	width: 100%;
+	/* padding: 10px; */
+	position: relative;
+	border-radius: 10px;
+	/* margin-top: 60px; */
+}
+.infoEleve > img {
+	width: 100%;
+	height: 20rem;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	object-fit: cover;
+}
+.infoEleve .info {
+	/* width: 55%; */
+	color: var(--CouleurTexteLien);
+	/* margin-top: 50px; */
+	width: 100%;
+}
+.infoEleve .info .titre {
+	color: var(--CouleurTexteLienSurvol);
+	font-weight: bold;
+}
+.infoEleve .imgProfile {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	background-color: aqua;
+	border: 5px var(--CouleurFondNav) solid;
+	overflow: hidden;
+	position: absolute;
+	top: 15.5rem;
+	left: 5%;
+}
+.modifierProfile {
+	position: absolute;
+	top: 21rem;
+	right: 5%;
+	padding: 5px 8px;
+	border-radius: 5px;
+	border: 1px solid var(--CouleurTexteLienSurvol);
+	color: var(--CouleurTexteLienSurvol);
+	cursor: pointer;
+	font-size: 0.9em;
+}
+.modifierProfile:hover {
+	background-color: var(--CouleurTexteLienSurvol);
+	color: #fff;
+}
+.infoEleve h2 {
+	margin-top: 6rem;
+	width: 100%;
+	color: var(--CouleurTexteLienSurvol);
+	font-size: 1.4em;
+	padding: 10px;
+}
+.commentaire {
+	width: 100%;
+	color: var(--CouleurTexteLien);
+	padding: 10px;
+}
+.commentaire summary {
+	font-weight: bold;
+	cursor: pointer;
+	margin-bottom: 1rem;
+	font-size: 1.2em;
+	color: var(--CouleurNB);
+}
+.infoEleve .imgProfile img {
+	/* width: 170px;
+	height: 190px; */
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: all 0.7s;
+}
+.infoEleve .imgProfile:hover img {
+	transform: scale(1.09);
+	transition: all 0.7s;
+}
+.infoEleve .info > div {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 1rem;
+}

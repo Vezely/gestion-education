@@ -1,0 +1,218 @@
+.container {
+	background-color: var(--CouleurFond);
+	position: relative;
+	margin-top: 3.09rem;
+	padding: 20px;
+}
+.contenu {
+	/* width: 100%; */
+	/* position: absolute;
+	top: 48px;
+	right: 14rem;
+	left: 12rem; */
+	margin-top: 3.09rem;
+
+	display: flex;
+	justify-content: center;
+	/* align-items: center; */
+	flex-wrap: wrap;
+	gap: 5px;
+	background-color: var(--CouleurFond);
+	transition: all 0.5s;
+}
+.bar_recherche {
+	display: flex;
+	width: 100%;
+	/* height: 100%; */
+	border-bottom: var(--CouleurBordure) solid 1px;
+	margin-bottom: 2rem;
+}
+.bar_recherche form {
+	width: 100%;
+}
+.bar_recherche label {
+	width: 100%;
+	/* height: 100%; */
+	position: relative;
+}
+
+.bar_recherche label button {
+	background: none;
+	border: none;
+	padding: 0;
+	padding-top: 8px;
+	padding-bottom: 3px;
+	position: absolute;
+	top: 50%;
+	right: -8px;
+	fill: var(--CouleurTexteLien);
+	transform: translate(-50%, -50%);
+	width: 25px;
+	cursor: pointer;
+}
+.bar_recherche label button:active svg {
+	transform: scale(0.9);
+}
+.bar_recherche label svg:active ~ input {
+	border: solid 1px var(--CouleurAccent);
+}
+.bar_recherche label input:focus ~ button svg {
+	fill: #8e76f0;
+}
+.bar_recherche label input {
+	padding: 5px 35px 5px 15px;
+	width: 100%;
+	/* min-width: 2rem; */
+	/* height: 100%; */
+	background-color: var(--CouleurFond);
+	border-left: none;
+	border-radius: 5px;
+	border: 1px solid var(--CouleurTexteLienSurvol);
+	outline: none;
+	color: var(--CouleurNB);
+}
+.bar_recherche label input:focus {
+	border: solid 1px #8e76f0;
+}
+.bar_recherche label input:focus ~ svg {
+	fill: #8e76f0;
+}
+.container h1 {
+	width: 100%;
+	color: var(--CouleurTexteLien2);
+}
+.card {
+	width: 350px;
+	height: 320px;
+	background-color: var(--CouleurBox);
+	border: 1px solid var(--CouleurBordure);
+	text-decoration: none;
+	border-radius: 8px;
+	color: white;
+	overflow: hidden;
+	position: relative;
+	/* background-image: url(../public/images/matam.jpeg); */
+	background-size: cover;
+	color: var(--CouleurTexte);
+	/* background-image: conic-gradient(#0693e3, #cf2e2e, #fff, #0693e3); */
+}
+.card img {
+	width: 100%;
+	object-fit: cover;
+	height: 12rem;
+	transition: 0.5s;
+	border-radius: 8px;
+}
+.card:hover img {
+	transform: scale(1.01);
+	transition: 0.5s;
+}
+.card .card_content .voir {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	font-size: 0.89em;
+	transform: translate(-50%, -50%);
+	padding: 5px 15px;
+	background-color: var(--CouleurBox);
+	border: 1px solid var(--CouleurBordure);
+	border-radius: 1rem;
+	text-decoration: none;
+	color: #c4a461;
+	transition: all 0.4s;
+	opacity: 0;
+}
+
+.card_content {
+	padding: 10px;
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	/* gap: 10px; */
+	/* align-items: center; */
+	color: #9f9fa0;
+	text-align: center;
+}
+
+.card_content .card_title {
+	font-size: 24px;
+	margin: 0;
+	margin-top: 5px;
+	font-weight: 700;
+	color: inherit;
+	display: flex;
+	gap: 5px;
+}
+.card_content h1 span {
+	color: #c4a461;
+	text-transform: uppercase;
+}
+.card_content .card_para {
+	color: inherit;
+	margin: 0;
+	opacity: 0.8;
+	font-size: 14px;
+}
+
+.card:hover {
+	/* transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); */
+	border: solid 1px #c4a461;
+	color: #c4a461;
+}
+.card_content:hover .voir {
+	opacity: 1;
+	transition: all 0.4s;
+}
+.card:hover p {
+	color: #9f9fa0;
+}
+.infos {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: absolute;
+	margin: 0 10px;
+	/* bottom: -40px; */
+	bottom: 5px;
+	left: 0px;
+	right: 0px;
+}
+.infos div {
+	display: flex;
+	gap: 2px;
+	align-items: center;
+	color: #c4a461;
+}
+.bulding {
+	transform: scale(0.4);
+}
+.infos div svg {
+	fill: #c4a461;
+	transform: scale(0.9);
+}
+.infos div span {
+	padding-top: 4px;
+	font-size: 0.9em;
+	font-weight: 200;
+}
+.card:hover {
+	background-color: #303d48;
+}
+
+@media (max-width: 665px) {
+	.contenu {
+		left: 3.5rem;
+		transition: all 0.5s;
+	}
+}
+@media (max-width: 772px) {
+	.contenu {
+		right: 0;
+	}
+	.card {
+		width: 100%;
+		max-width: none;
+	}
+}

@@ -1,0 +1,80 @@
+.fondateur {
+	margin-top: 3.09rem;
+	min-width: 14rem;
+	height: 100%;
+
+	display: flex;
+	align-items: flex-start;
+	background-color: var(--CouleurBox);
+	/* background-image: url(/images/moi.png);
+	background-size: cover; */
+	padding: 12px;
+}
+.fondateur .profil {
+	text-decoration: none;
+	color: #fff;
+	background-image: url(/images/moi.png);
+	background-size: cover;
+	padding: 8px;
+	border-radius: 5px;
+	width: 100%;
+	border: solid 1px var(--CouleurBordure);
+}
+.fondateur .profil h2 {
+	margin-top: 12rem;
+	margin-bottom: 5px;
+	font-size: 1.2em;
+	/* color: var(--CouleurTexteLienSurvol); */
+}
+.fondateur .profil p {
+	margin: 0;
+	font-size: 0.9em;
+}
+.fondateur .profil .nom {
+	color: var(--CouleurTexteLienSurvol);
+}
+.fondateur .profil .site {
+	width: 100%;
+	text-align: center;
+	margin: 15px 0 10px 0;
+	/* background: none; */
+}
+.fondateur .profil .site a {
+	text-decoration: none;
+	background: none;
+	color: #fff;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	padding: 5px 10px;
+	font-size: 0.9em;
+}
+/* .btnToggle {
+	position: absolute;
+	top: 65px;
+	right: 15px;
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+.btnToggle:active {
+	transition: all 0.2s;
+	transform: scale(0.9);
+}
+.btnToggle span {
+	position: absolute;
+	right: -2.5px;
+	top: -15px;
+	padding: 2px 5px;
+	background-color: var(--CouleurSurvol);
+	color: #fff;
+	font-size: 0.6em;
+}
+.btnToggle svg {
+	fill: var(--CouleurTexteLienSurvol);
+} */
+@media (max-width: 772px) {
+	.fondateur {
+		display: none;
+	}
+}
