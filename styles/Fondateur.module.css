@@ -9,6 +9,8 @@
 	/* background-image: url(/images/moi.png);
 	background-size: cover; */
 	padding: 12px;
+	position: sticky;
+	top: 8%;
 }
 .fondateur .profil {
 	text-decoration: none;

@@ -12,13 +12,13 @@ const AjouterEleve = () => {
 	const [nomRegion, setNomRegion] = useState('');
 	const [nomEtablissement, setNomEtablissement] = useState('');
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		watch,
-		setValue,
-	} = useForm();
+	// const {
+	// 	register,
+	// 	handleSubmit,
+	// 	formState: { errors },
+	// 	watch,
+	// 	setValue,
+	// } = useForm();
 	const classeRef = useRef(null);
 	const villeRef = useRef(null);
 	const etablissementRef = useRef(null);
@@ -101,160 +101,212 @@ const AjouterEleve = () => {
 		fetchClassesData();
 	}, [nomEtablissement]);
 
+	const [file, setFile] = useState(null);
+	const [msg, setMsg] = useState(null);
+	const [nomEleve, setNomEleve] = useState('');
 	const [photo, setPhoto] = useState(null);
+	const [succes, setSucces] = useState(false);
 
-	const photoRef = useRef(null);
+	const [formData, setFormData] = useState({
+		nom: '',
+		prenom: '',
+		telephone: '',
+		date_naissance: '',
+		lieu_naissance: '',
+		sexe: 'masculin',
+		id_commune: '',
+		id_etablissement: '',
+		id_classe: '',
+		photo: null,
+	});
+	const initialFormData = {
+		nom: '',
+		prenom: '',
+		telephone: '',
+		date_naissance: '',
+		lieu_naissance: '',
+		sexe: 'masculin',
+		id_commune: '',
+		id_etablissement: '',
+		id_classe: '',
+		photo: null,
+	};
 
-	const handlePhotoChange = () => {
-		if (photoRef.current) {
-			const file = photoRef.current.files[0];
-			setPhoto(file);
+	const [errors, setErrors] = useState({});
+
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+	};
+
+	const handlePhotoChange = (e) => {
+		const { name, files } = e.target;
+		if (files && files[0]) {
+			setFormData((prevState) => ({
+				...prevState,
+				[name]: e.target,
+			}));
 		}
 	};
 
-	const onSubmit = async (data) => {
+	const validateForm = () => {
+		let errors = {};
+
+		// Validation du nom
+		if (!formData.nom || formData.nom.length < 3) {
+			errors.nom = 'Le nom doit avoir au moins 3 caractères';
+		}
+
+		// Validation du prénom
+		if (!formData.prenom || formData.prenom.length < 3) {
+			errors.prenom = 'Le prénom doit avoir au moins 3 caractères';
+		}
+
+		// Validation du numéro de téléphone
+		if (!formData.telephone || formData.telephone.length < 9) {
+			errors.telephone = 'Le numéro de téléphone doit avoir au moins 9 chiffres';
+		}
+
+		// Validation de la date de naissance
+		if (!formData.date_naissance) {
+			errors.date_naissance = 'La date de naissance est obligatoire';
+		}
+
+		// Validation du lieu de naissance
+		if (!formData.lieu_naissance || formData.lieu_naissance.length < 5) {
+			errors.lieu_naissance = 'Le lieu de naissance doit avoir au moins 5 caractères';
+		}
+
+		// Validation du sexe
+		if (!formData.sexe) {
+			errors.sexe = 'Sélectionner une valeur sur la liste';
+		}
+
+		// Validation de la commune
+		if (!formData.id_commune) {
+			errors.id_commune = "Commencez d'abord par sélectionnez la région avant la ville";
+		}
+
+		// Validation de l'établissement
+		if (!formData.id_etablissement) {
+			errors.id_etablissement = 'Sélectionnez un établissement';
+		}
+
+		// Validation de la classe
+		if (!formData.id_classe) {
+			errors.id_classe = 'Sélectionnez une classe';
+		}
+
+		// Validation de la photo (si elle est ajoutée)
+
+		if (photo && (!formData.photo || !formData.photo.files || !formData.photo.files[0])) {
+			errors.photo = 'Sélectionnez une photo';
+		}
+
+		return errors;
+	};
+
+	const handleUpload = async (event) => {
+		event.preventDefault();
+
+		// Réinitialisation des erreurs
+		setErrors({});
+
+		const validationErrors = validateForm();
+		if (Object.keys(validationErrors).length > 0) {
+			setErrors(validationErrors);
+			return;
+		}
+
+		const formDataToSend = new FormData();
+		for (let key in formData) {
+			formDataToSend.append(key, formData[key]);
+		}
+		// Ajoutez la photo seulement si elle est sélectionnée
+		if (photo && formData.photo && formData.photo.files && formData.photo.files[0]) {
+			formDataToSend.append('photo', formData.photo.files[0]);
+		}
 		try {
-			const formData = new FormData();
-			for (const key in data) {
-				if (data.hasOwnProperty(key)) {
-					formData.append(key, data[key]);
-				}
-			}
-			if (photo) {
-				formData.append('photo', photo);
-			}
+			const response = await fetch('/api/ajouterEleve', {
+				method: 'POST',
+				body: formDataToSend,
+			});
 
-			const response = await axios.post('/api/ajouterEleve', formData);
-
-			if (response.data.nouvelEleve) {
-				alert('Elève ajouté avec succès');
+			const data = await response.json();
+			if (data.error) {
+				setErrors({ form: data.error });
 			} else {
-				alert("Erreur lors de l'ajout de l'élève");
+				setFile(data.file);
+				setMsg(data.msg);
+				setFormData(initialFormData);
+				setNomEleve(data.nom + ' ' + data.prenom);
+				setSucces(true);
 			}
 		} catch (error) {
-			alert("Erreur lors de l'ajout de l'élève");
-			console.error(error);
+			setErrors({ form: 'An error occurred. Please try again.' });
 		}
 	};
-
-	// const onSubmit = async (data) => {
-	// 	try {
-	// 		const response = await fetch('/api/ajouterEleve', {
-	// 			method: 'POST',
-	// 			headers: { 'Content-Type': 'application/json' },
-	// 			body: JSON.stringify(data),
-	// 		});
-
-	// 		const responseData = await response.json();
-
-	// 		if (responseData.success) {
-	// 			alert('Elève ajouté avec succès');
-	// 		} else {
-	// 			alert("Erreur lors de l'ajout de l'élève");
-	// 		}
-	// 	} catch (error) {
-	// 		alert("Erreur lors de l'ajout de l'élève");
-	// 	}
-	// };
 
 	return (
 		// <div className={styles.contenu}>
 		<div className={styles.formulaire}>
 			<h2>Inscrire un éléve</h2>
-			<form className={styles.form} onSubmit={handleSubmit(onSubmit)} encType='multipart/form-data'>
+			<form className={styles.form} onSubmit={handleUpload} encType='multipart/form-data'>
+				<p>
+					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta facere dolor iure voluptatibus omnis, recusandae quis aut aspernatur ex
+					id ut sunt deserunt, atque doloremque exercitationem. In officia minus laboriosam.
+				</p>
 				<div className={styles.section}>
 					<label>
 						<span className={styles.obligatoire}>Nom : </span>
-						<input
-							type='text'
-							placeholder='Nom'
-							{...register('nom', {
-								required: 'Le nom est obligatoire',
-								minLength: {
-									value: 3,
-									message: 'Le nom doit avoir au moins 3 carractères',
-								},
-							})}
-							name='nom'
-							autoFocus
-						/>
-						{errors.nom && <p className={styles.erreur}>{errors.nom.message}</p>}
+						<input type='text' placeholder='Nom' name='nom' value={formData.nom} onChange={handleInputChange} autoFocus />
+						{errors.nom && <p className={styles.erreur}>{errors.nom}</p>}
 					</label>
 					<label>
 						<span className={styles.obligatoire}>Prénom : </span>
-						<input
-							type='text'
-							placeholder='Prénom'
-							{...register('prenom', {
-								required: 'Le prénom est obligatoire',
-								minLength: {
-									value: 3,
-									message: 'Le prénom doit avoir au moins 3 carractères',
-								},
-							})}
-							name='prenom'
-						/>
-						{errors.prenom && <p className={styles.erreur}>{errors.prenom.message}</p>}
+						<input type='text' placeholder='Prénom' name='prenom' value={formData.prenom} onChange={handleInputChange} />
+						{errors.prenom && <p className={styles.erreur}>{errors.prenom}</p>}
 					</label>
 					<label>
 						<span className={styles.obligatoire}>Téléphone : </span>
-						<input
-							type='number'
-							id=''
-							placeholder='Numéro de téléphone'
-							{...register('telephone', {
-								required: 'Le numéro de téléphone est obligatoire',
-								minLength: {
-									value: 9,
-									message: 'Le numéro de téléphone doit avoir au moins 9 chiffres',
-								},
-							})}
-							name='telephone'
-						/>
-						{errors.telephone && <p className={styles.erreur}>{errors.telephone.message}</p>}
+						<input type='number' placeholder='Numéro de téléphone' name='telephone' value={formData.telephone} onChange={handleInputChange} />
+						{errors.telephone && <p className={styles.erreur}>{errors.telephone}</p>}
 					</label>
 				</div>
 				<div className={styles.section}>
 					<label>
 						<span className={styles.obligatoire}>Date de naissance : </span>
-						<input
-							type='date'
-							{...register('date_naissance', {
-								required: 'La date de naissance est obligatoire',
-							})}
-							name='date_naissance'
-						/>
-						{errors.date_naissance && <p className={styles.erreur}>{errors.date_naissance.message}</p>}
+						<input type='date' name='date_naissance' value={formData.date_naissance} onChange={handleInputChange} />
+						{errors.date_naissance && <p className={styles.erreur}>{errors.date_naissance}</p>}
 					</label>
 					<label>
 						<span className={styles.obligatoire}>Lieu de naissance : </span>
 						<input
 							type='text'
 							placeholder='Lieu de naissance'
-							{...register('lieu_naissance', {
-								required: 'Le lieu de naissance est obligatoire',
-								minLength: {
-									value: 5,
-									message: 'Le lieu de naissance doit avoir au moins 5 carractères',
-								},
-							})}
 							name='lieu_naissance'
+							value={formData.lieu_naissance}
+							onChange={handleInputChange}
 						/>
-						{errors.lieu_naissance && <p className={styles.erreur}>{errors.lieu_naissance.message}</p>}
+						{errors.lieu_naissance && <p className={styles.erreur}>{errors.lieu_naissance}</p>}
 					</label>
 					<label>
 						<div className={styles.obligatoire}>Sexe : </div>
-						<select defaultValue='masculin' {...register('sexe', { required: 'Sélectionner une valeur sur la liste' })}>
+						<select name='sexe' value={formData.sexe} onChange={handleInputChange}>
 							<option value='masculin'>masculin</option>
 							<option value='feminin'>feminin</option>
 						</select>
-						{errors.sexe && <p className={styles.erreur}>{errors.sexe.message}</p>}
+
+						{errors.sexe && <p className={styles.erreur}>{errors.sexe}</p>}
 					</label>
 				</div>
 				<div className={styles.section}>
 					<label>
 						<span>Commentaire : </span>
-						<textarea placeholder="Commentaire sur l'élève (Facultatif)" {...register('commentaire')} name='commentaire'></textarea>
+						<textarea placeholder="Commentaire sur l'élève (Facultatif)" name='commentaire'></textarea>
 					</label>
 				</div>
 				<div className={styles.section}>
@@ -263,7 +315,7 @@ const AjouterEleve = () => {
 						<select onChange={(e) => getNomRegion(e.target.value)}>
 							<option defaultValue={null}>Sélectionnez une région</option>
 							{regions.map((region) => (
-								<option key={region.id_region} value={region.nom_region} required>
+								<option key={region.id_region} value={region.nom_region}>
 									{region.nom_region}
 								</option>
 							))}
@@ -273,12 +325,11 @@ const AjouterEleve = () => {
 						<div className={styles.obligatoire}>Ville : </div>
 						<select
 							ref={villeRef}
+							value={formData.id_commune}
 							onChange={(e) => {
 								getNomVille(e);
-								setValue('id_commune', e.target.value);
+								handleInputChange(e);
 							}}
-							value={watch('id_commune')}
-							required
 							name='id_commune'>
 							<option value=''>Sélectionnez une ville</option>
 							{villes.map((ville) => (
@@ -287,7 +338,7 @@ const AjouterEleve = () => {
 								</option>
 							))}
 						</select>
-						{errors.id_commune && <p className={styles.erreur}>{errors.id_commune.message}</p>}
+						{errors.id_commune && <p className={styles.erreur}>{errors.id_commune}</p>}
 					</label>
 					<label>
 						<div className={styles.obligatoire}>Établissement : </div>
@@ -295,10 +346,10 @@ const AjouterEleve = () => {
 							ref={etablissementRef}
 							onChange={(e) => {
 								getNomEtablissement(e);
-								setValue('id_etablissement', e.target.value);
+								// setValue('id_etablissement', e.target.value);
+								handleInputChange(e);
 							}}
-							value={watch('id_etablissement')}
-							required
+							value={formData.id_etablissement}
 							name='id_etablissement'>
 							<option value=''>Sélectionnez un établissement</option>
 							{etablissementData.map((etablissement) => (
@@ -307,17 +358,17 @@ const AjouterEleve = () => {
 								</option>
 							))}
 						</select>
-						{errors.id_etablissement && <p className={styles.erreur}>{errors.id_etablissement.message}</p>}
+						{errors.id_etablissement && <p className={styles.erreur}>{errors.id_etablissement}</p>}
 					</label>
 					<label>
 						<div className={styles.obligatoire}>Classe : </div>
 						<select
 							ref={classeRef}
 							onChange={(e) => {
-								setValue('id_classe', e.target.value);
+								// setValue('id_classe', e.target.value);
+								handleInputChange(e);
 							}}
-							value={watch('id_classe')}
-							required
+							value={formData.id_classe}
 							name='id_classe'>
 							<option value=''>Sélectionnez une classe</option>
 							{classeData.map((classe) => (
@@ -326,47 +377,41 @@ const AjouterEleve = () => {
 								</option>
 							))}
 						</select>
-						{errors.id_classe && <p className={styles.erreur}>{errors.id_classe.message}</p>}
+						{errors.id_classe && <p className={styles.erreur}>{errors.id_classe}</p>}
 					</label>
 				</div>
-
 				<label className={styles.cyberpunk_checkbox_label}>
 					<input className={styles.cyberpunk_checkbox} type='checkbox' onChange={ajouterPhot} />
 					Ajouter une photo
 				</label>
 				{photo && (
-					<>
-						<p>Les dimentions de la photo:</p>
-						<div className={styles.section}>
-							<label>
-								<span className={styles.obligatoire}>Photo : </span>
-								<input
-									type='file'
-									ref={photoRef}
-									{...register('photo', { required: 'Sélectionnez une photo' })}
-									onChange={handlePhotoChange}
-								/>
-								{errors.photo && <p className={styles.erreur}>{errors.photo.message}</p>}
-							</label>
+					<div className={styles.section}>
+						<label>
+							<span className={styles.obligatoire}>Photo : </span>
+							<input accept='image/*' type='file' name='photo' onChange={handlePhotoChange} />
 
-							<label>
-								<span className={styles.obligatoire}>Largeur : </span>
-								<input type='number' {...register('width', { required: 'Indiquez la largeur' })} />
-								{errors.width && <p className={styles.erreur}>{errors.width.message}</p>}
-							</label>
-
-							<label>
-								<span className={styles.obligatoire}>Hauteur : </span>
-								<input type='number' {...register('height', { required: 'Indiquez la hauteur' })} />
-								{errors.height && <p className={styles.erreur}>{errors.height.message}</p>}
-							</label>
-						</div>
-					</>
+							{errors.photo && <p className={styles.erreur}>{errors.photo}</p>}
+						</label>
+					</div>
 				)}
 				<button className={styles.button} type='submit'>
-					Ajouter
+					Inscrire
 				</button>
 			</form>
+			{succes && (
+				<div className={styles.succes}>
+					<span className={styles.maske}></span>
+					<div>
+						<svg viewBox='-3.5 0 19 19'>
+							<g id='SVGRepo_iconCarrier'>
+								<path d='M4.63 15.638a1.028 1.028 0 0 1-.79-.37L.36 11.09a1.03 1.03 0 1 1 1.58-1.316l2.535 3.043L9.958 3.32a1.029 1.029 0 0 1 1.783 1.03L5.52 15.122a1.03 1.03 0 0 1-.803.511.89.89 0 0 1-.088.004z'></path>
+							</g>
+						</svg>
+						<div>{nomEleve} a été inscrit avec succès</div>
+						<button onClick={() => setSucces(false)}>OK</button>
+					</div>
+				</div>
+			)}
 		</div>
 		// </div>
 	);

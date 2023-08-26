@@ -1,62 +1,106 @@
 import multer from 'multer';
 import { ajouterEleve } from '../../queries.js';
+import path from 'path';
+import sizeOf from 'image-size';
 
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, './public/images');
+export const config = {
+	api: {
+		bodyParser: false,
 	},
+};
+
+// Configuration de Multer
+const storage = multer.diskStorage({
+	destination: 'public/images/profil/',
 	filename: function (req, file, cb) {
-		cb(null, Date.now() + '-' + file.originalname);
+		cb(null, Date.now() + path.extname(file.originalname));
 	},
 });
 
-const fileFilter = (req, file, cb) => {
-	if (file.mimetype.startsWith('image')) {
-		cb(null, true);
+const upload = multer({
+	storage: storage,
+	limits: { fileSize: 5 * 1024 * 1024 }, // Updated to 5MB
+	fileFilter: function (req, file, cb) {
+		checkFileType(file, cb);
+	},
+}).single('photo');
+
+function checkFileType(file, cb) {
+	const filetypes = /jpeg|jpg|png|gif/;
+	const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+	const mimetype = filetypes.test(file.mimetype);
+
+	if (mimetype && extname) {
+		return cb(null, true);
 	} else {
-		cb(new Error('Not an image! Please upload an image.'), false);
+		cb(new Error('Images Only!'));
 	}
-};
+}
 
-const upload = multer({ storage, fileFilter }).single('photo');
-
-export default function handler(req, res) {
-	if (req.method !== 'POST') {
-		return res.status(405).json({ error: 'Méthode non autorisée.' });
+export default async function handler(req, res) {
+	if (req.method === 'POST') {
+		upload(req, res, async (err) => {
+			// Notez que nous avons également rendu cette fonction de rappel asynchrone
+			if (err) {
+				res.status(500).json({ error: err.message });
+				return;
+			}
+			const { nom, prenom, date_naissance, lieu_naissance, sexe, telephone, id_classe, id_commune, id_etablissement, commentaire } = req.body;
+			try {
+				// Si une photo a été envoyée
+				if (req.file) {
+					const dimensions = sizeOf(req.file.path);
+					await ajouterEleve(
+						nom,
+						prenom,
+						date_naissance,
+						lieu_naissance,
+						sexe,
+						telephone,
+						id_classe,
+						id_commune,
+						id_etablissement,
+						commentaire,
+						`/images/profil/${req.file.filename}`,
+						dimensions.width,
+						dimensions.height,
+					);
+					res.status(200).json({
+						msg: 'File uploaded!',
+						nom: nom,
+						prenom: prenom,
+					});
+				}
+				// Si aucune photo n'a été envoyée
+				else {
+					await ajouterEleve(
+						nom,
+						prenom,
+						date_naissance,
+						lieu_naissance,
+						sexe,
+						telephone,
+						id_classe,
+						id_commune,
+						id_etablissement,
+						commentaire,
+						null,
+						null,
+						null,
+					);
+					res.status(200).json({
+						msg: 'No file uploaded but the rest of the data is processed!',
+						nom: nom,
+						prenom: prenom,
+					});
+				}
+			} catch (error) {
+				res.status(500).json({ error: 'An error occurred while processing the request.' });
+			}
+		});
+	} else {
+		res.status(405).json({ error: 'Method not allowed' });
 	}
-
-	upload(req, res, async (err) => {
-		if (err) {
-			console.error(err);
-			return res.status(500).json({ error: 'Une erreur est survenue lors du traitement de la photo.' });
-		}
-		console.log(req.body);
-		try {
-			const { nom, prenom, date_naissance, lieu_naissance, sexe, telephone, id_classe, id_commune, id_etablissement, commentaire, width, height } =
-				req.body;
-
-			const nouvelEleve = await ajouterEleve(
-				nom,
-				prenom,
-				date_naissance,
-				lieu_naissance,
-				sexe,
-				telephone,
-				id_classe,
-				id_commune,
-				id_etablissement,
-				commentaire,
-				req.file ? req.file.path : null,
-				width,
-				height,
-			);
-
-			return res.status(200).json({ nouvelEleve });
-		} catch (error) {
-			console.error(error);
-			return res.status(500).json({ error: "Une erreur est survenue lors de l'ajout de l'élève." });
-		}
-	});
 }
 
 // export default async function handler(request, response) {

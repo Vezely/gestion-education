@@ -6,12 +6,17 @@
 }
 .formulaire h2 {
 	text-transform: uppercase;
+	font-size: 1em;
 }
 .form {
 	display: flex;
 	flex-direction: column;
 	transition: all 0.3s;
 	gap: 10px;
+}
+.form p {
+	margin: 5px 0;
+	font-size: 0.8em;
 }
 .section {
 	display: flex;
@@ -25,13 +30,15 @@
 }
 .section input,
 .section label select,
-.section label textarea {
+.section label textarea,
+.form button {
 	outline: none;
 	background: none;
 	color: var(--CouleurTexte);
 	padding: 5px 10px;
 	width: 100%;
-	border: 1px solid var(--CouleurBordure);
+	border: 1px solid var(--CouleurSurvol);
+	border-radius: 5px;
 }
 .section input:focus,
 .section label select:focus {
@@ -43,6 +50,10 @@
 .section label .obligatoire::before {
 	content: '* ';
 	/* color: red; */
+}
+.section label > div,
+.section label > span {
+	color: var(--CouleurSurvol);
 }
 .button {
 	border: 1px solid var(--CouleurBordure);
@@ -110,6 +121,168 @@
 	color: red;
 	margin: 0;
 	font-size: 0.8em;
+}
+.succes {
+	background-color: var(--CouleurFond);
+	border: 1px solid var(--CouleurBordure);
+	border-radius: 5px;
+	color: var(--CouleurTexteLienSurvol);
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 20px 15px;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	transition: all 3s;
+}
+.succes > div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+}
+.succes svg {
+	fill: var(--CouleurIcon);
+	width: 40px;
+}
+.succes .maske {
+	position: fixed;
+	z-index: -1;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
+	background: rgba(0, 0, 0, 0.205);
+}
+.succes button {
+	outline: none;
+	background: none;
+	color: var(--CouleurTexte);
+	padding: 5px 10px;
+	width: 100%;
+	border: 1px solid var(--CouleurSurvol);
+	border-radius: 5px;
+	cursor: pointer;
+}
+.succes button:hover {
+	background-color: var(--CouleurSurvol);
+	transition: all 0.3s;
+}
+.bar_recherche {
+	display: flex;
+	/* height: 100%; */
+	border-bottom: var(--CouleurBordure) solid 1px;
+	margin-bottom: 2rem;
+	position: relative;
+}
+.bar_recherche form {
+	width: 100%;
+	height: 2px;
+}
+.bar_recherche label {
+	width: 100%;
+	/* height: 100%; */
+	position: relative;
+}
+
+.bar_recherche label button {
+	background: none;
+	border: none;
+	padding: 0;
+	padding-top: 8px;
+	padding-bottom: 3px;
+	position: absolute;
+	z-index: 25;
+	top: 50%;
+	right: -8px;
+	fill: var(--CouleurTexteLien);
+	transform: translate(-50%, -50%);
+	width: 25px;
+	cursor: pointer;
+}
+.bar_recherche label button:active svg {
+	transform: scale(0.9);
+}
+.bar_recherche label svg:active ~ input {
+	border: solid 1px var(--CouleurAccent);
+}
+.bar_recherche label input:focus ~ button svg {
+	fill: #8e76f0;
+}
+.bar_recherche label input {
+	padding: 5px 35px 5px 15px;
+	width: 100%;
+	/* min-width: 2rem; */
+	/* height: 100%; */
+	background-color: var(--CouleurFond);
+	border-left: none;
+	border-radius: 5px;
+	border: 1px solid var(--CouleurTexteLienSurvol);
+	outline: none;
+	color: var(--CouleurNB);
+	position: relative;
+	z-index: 22;
+}
+.bar_recherche label input:focus {
+	border: solid 1px #8e76f0;
+}
+.bar_recherche label input:focus ~ svg {
+	fill: #8e76f0;
+}
+.container h1 {
+	width: 100%;
+	color: var(--CouleurTexteLien2);
+}
+.bar_recherche form .popupRecherche {
+	background-color: var(--CouleurFond);
+	border: 1px solid var(--CouleurBordure);
+	border-radius: 5px;
+	width: 100%;
+	max-height: 10vh;
+	z-index: 2;
+	padding: 5px;
+	overflow: scroll;
+	position: absolute;
+	top: 2rem;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+}
+.bar_recherche form .popupRecherche .aucunEleve {
+	padding: 3px 10px;
+	width: 100%;
+	text-align: center;
+	color: var(--CouleurTexteLien2);
+	font-size: 0.9em;
+}
+.popupRecherche .box_recherche {
+	color: var(--CouleurTexteLien2);
+	display: flex;
+	gap: 5px;
+	padding: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.popupRecherche .box_recherche:hover {
+	background-color: var(--CouleurSurvol);
+	color: #fff;
+}
+.masker {
+	position: fixed;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background: rgba(0, 0, 0, 0.205);
 }
 @media (max-width: 662px) {
 	.section {

@@ -8,7 +8,11 @@ const Eleve = () => {
 	const router = useRouter();
 	const [eleve, setEleve] = useState([]);
 	const [idEleve, setIdEleve] = useState('');
+	const [file, setFile] = useState(null);
+	const [msg, setMsg] = useState(null);
 
+	const [btnEnregistrer, setbTnEnregistrer] = useState(false);
+	const [imageDetecter, setbImageDetecter] = useState(false);
 	useEffect(() => {
 		const eleve = router.query.id;
 		if (eleve) {
@@ -31,6 +35,49 @@ const Eleve = () => {
 		fetchEleveData();
 	}, [idEleve]);
 
+	useEffect(() => {
+		const fileInput = document.getElementById('file-input');
+		const handleFileChange = () => {
+			if (fileInput.files.length > 0) {
+				setbImageDetecter(false);
+				setbTnEnregistrer(true);
+			} else {
+				setbImageDetecter(true);
+			}
+
+			// Votre logique pour mettre à jour `selectedFilename` ou tout autre code que vous souhaitez exécuter...
+		};
+		fileInput.addEventListener('change', handleFileChange);
+		// Le nettoyage : c'est ce qui sera exécuté lorsque le composant sera démonté.
+		return () => {
+			fileInput.removeEventListener('change', handleFileChange);
+		};
+	}, []); // Le tableau vide signifie que cet effet s'exécutera une fois après le montage du composant et le nettoyage s'exécutera lors du démontage.
+
+	const handleUpload = async (event) => {
+		event.preventDefault();
+		const formData = new FormData(event.target);
+		formData.append('id', router.query.id);
+		try {
+			const response = await fetch('/api/updateProfilEleve', {
+				method: 'POST',
+				body: formData,
+			});
+			const data = await response.json();
+			if (data.error) {
+				setMsg(data.error);
+			} else {
+				setFile(data.file);
+				setMsg(data.msg);
+				setbTnEnregistrer(false);
+				window.location.reload();
+			}
+			console.log(description);
+		} catch (error) {
+			setMsg('An error occurred. Please try again.');
+		}
+	};
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.contenu}>
@@ -43,7 +90,15 @@ const Eleve = () => {
 						</div>
 					))}
 					<div className={styles.modifierProfile}>
-						<div>Modifier le profil</div>
+						{/* <div>Modifier le profil</div> */}
+						<form onSubmit={handleUpload} encType='multipart/form-data'>
+							<input type='file' id='file-input' name='photo' hidden accept='image/*' />
+							<label htmlFor='file-input' className={styles.file_input_label}>
+								Modifier le profil
+							</label>
+							{imageDetecter && <span id='selected-filename'> Aucun fichier choisi</span>}
+							{btnEnregistrer && <button type='submit'>Enregistrer</button>}
+						</form>
 					</div>
 					{eleve.map((item) => (
 						<h2 key={item.id_eleve}>

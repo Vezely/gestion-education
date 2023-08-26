@@ -256,6 +256,26 @@ const ajouterEleve = async (
 		throw error;
 	}
 };
+const updateEleveImageInfo = async (id_eleve, eleve_img, width, height) => {
+	const query = `
+        UPDATE eleve
+        SET 
+            eleve_img = ?,
+            width = ?,
+            height = ?
+        WHERE id_eleve = ?;
+    `;
+
+	const params = [eleve_img, width, height, id_eleve]; // Notice the corrected order here
+
+	try {
+		const results = await executeQuery(query, params);
+		return results;
+	} catch (error) {
+		console.error("Erreur lors de l'exécution de la requête de mise à jour de l'élève :", error);
+		throw error;
+	}
+};
 
 // async function chercheeEleve(nom, prenom) {
 // 	try {
@@ -287,4 +307,5 @@ export {
 	getEleve,
 	chercheeEleve,
 	ajouterEleve,
+	updateEleveImageInfo,
 };

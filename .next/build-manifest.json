@@ -25,10 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/commune/[commune]": [
+    "/administration/[administration]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/commune/[commune].js"
+      "static/chunks/pages/administration/[administration].js"
     ]
   },
   "ampFirstPages": []

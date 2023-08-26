@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import Etablissements from '../../components/Etablissements';
-import { hashEleveIdAsync } from '../../hashUtils';
+
 const Etablissement = () => {
 	const router = useRouter();
 	const [classeData, setClasseData] = useState([]);

@@ -1,45 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from '../styles/statistiques.module.css';
 import axios from 'axios';
 
 const Statistiques = () => {
-	const { register, handleSubmit, watch } = useForm();
+	const [file, setFile] = useState(null);
+	const [msg, setMsg] = useState(null);
+	const [description, setDescription] = useState('');
+	const [imageWidth, setImageWidth] = useState(null);
+	const [imageHeight, setImageHeight] = useState(null);
 
-	const handleFileUpload = async (data) => {
-		const formData = new FormData();
-		formData.append('photo', data.photo[0]);
-
+	const handleUpload = async (event) => {
+		event.preventDefault();
+		const formData = new FormData(event.target);
 		try {
-			const response = await axios.post('/api/uploadPhoto', formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
+			const response = await fetch('/api/upload', {
+				method: 'POST',
+				body: formData,
 			});
 
-			if (response.status === 200) {
-				console.log('Photo téléchargée avec succès');
+			const data = await response.json();
+			console.log(file);
+			if (data.error) {
+				setMsg(data.error);
+			} else {
+				setFile(data.file);
+				setDescription(data.description);
+				setImageWidth(data.width); // Nouveau
+				setImageHeight(data.height);
+				setMsg(data.msg);
 			}
+			console.log(description);
 		} catch (error) {
-			console.error('Erreur lors de la requête Axios:', error);
-
-			if (error.response) {
-				console.error("Détails de l'erreur:", error.response.data);
-			}
+			setMsg('An error occurred. Please try again.');
 		}
 	};
 
 	return (
-		<div className={styles.container}>
-			<div className={styles.contenu}>
-				<form onSubmit={handleSubmit(handleFileUpload)}>
-					<label>
-						<span>Photo : </span>
-						<input type='file' name='photo' {...register('photo')} />
-					</label>
-					<button type='submit'>Télécharger la photo</button>
-				</form>
-			</div>
+		<div>
+			<h1>Upload</h1>
+			<form onSubmit={handleUpload} encType='multipart/form-data'>
+				<input type='text' name='description' placeholder='Description' />
+				<input type='file' name='photo' />
+				<button type='submit'>Upload!</button>
+			</form>
+			{file && <img src={file} alt='Uploaded' />}
+			{description && <p>{description}</p>}
+			{imageWidth && imageHeight && (
+				<p>
+					Dimensions: {imageWidth} x {imageHeight}
+				</p>
+			)}
+
+			{msg && <div>{msg}</div>}
 		</div>
 	);
 };

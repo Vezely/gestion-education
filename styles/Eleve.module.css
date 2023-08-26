@@ -62,17 +62,16 @@
 	position: absolute;
 	top: 21rem;
 	right: 5%;
-	padding: 5px 8px;
-	border-radius: 5px;
-	border: 1px solid var(--CouleurTexteLienSurvol);
+	/* padding: 5px 8px; */
+	/* border: 1px solid var(--CouleurTexteLienSurvol); */
 	color: var(--CouleurTexteLienSurvol);
 	cursor: pointer;
 	font-size: 0.9em;
 }
 .modifierProfile:hover {
-	background-color: var(--CouleurTexteLienSurvol);
 	color: #fff;
 }
+
 .infoEleve h2 {
 	margin-top: 6rem;
 	width: 100%;
@@ -108,4 +107,48 @@
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 1rem;
+}
+.modifierProfile form label {
+	color: var(--CouleurTexteLienSurvol);
+	border: 1px solid var(--CouleurTexteLienSurvol);
+	border-radius: 5px;
+	padding: 5px 10px;
+}
+.modifierProfile form {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	gap: 10px;
+}
+.modifierProfile form button {
+	outline: none;
+	border-radius: 5px;
+	border: 1px solid var(--CouleurTexteLienSurvol);
+	background: none;
+	cursor: pointer;
+	transition: all 0.3s;
+	color: var(--CouleurTexteLienSurvol);
+	/* background-color: var(--CouleurTexteLienSurvol); */
+}
+.modifierProfile form button:hover {
+	background-color: var(--CouleurSurvol);
+	transition: all 0.3s;
+	color: #fff;
+}
+.file_input_wrapper {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.file_input_label {
+	/* padding: 10px 15px; */
+	/* background-color: #555; */
+	color: white;
+	cursor: pointer;
+	border: none;
+}
+
+#selected-filename {
+	color: #555;
 }

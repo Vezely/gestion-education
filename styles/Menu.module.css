@@ -5,6 +5,9 @@
 	color: var(--CouleurNB);
 	/* width: 100%; */
 	background-color: var(--CouleurFondNav);
+	/* height: 100vh; */
+	position: relative;
+	border-right: 1px solid var(--CouleurBordure);
 }
 
 .nav svg {
@@ -17,12 +20,14 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	border-right: 1px solid var(--CouleurBordure);
+	/* border-right: 1px solid var(--CouleurBordure); */
 	width: 12rem;
 	transition: all 0.8s;
-	/* height: 100vh; */
-	/* transition: all 0.5s; */
-
+	height: 30vh;
+	position: sticky;
+	top: 8.5%;
+	left: 0;
+	z-index: 5;
 	padding: 0;
 }
 .nav ul li {
@@ -69,7 +74,7 @@
 	gap: 5px;
 	color: var(--CouleurTexteLien);
 	text-decoration: none;
-	height: 4rem;
+	height: 3rem;
 	font-size: 0.9em;
 }
 .menuToggle,
@@ -101,12 +106,14 @@
 	font-size: 0.9em;
 	font-weight: 250;
 	text-align: center;
-	z-index: 2;
 	border-radius: 5px;
 	padding: 5px 10px;
 	background-color: var(--CouleurSurvol);
 	display: none;
+	max-width: 150px;
+	/* width: 150px; */
 }
+
 .focus2 span {
 	width: 15px;
 	height: 15px;

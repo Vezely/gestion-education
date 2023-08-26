@@ -378,6 +378,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	transition: all 3s;
 }
 .connexion_container form {
 	margin: 5px;
